@@ -125,8 +125,8 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
         //comprobar el username y el pass        // TODO add your handling code here:
         ConnectionWithServer.sendDoctor(FirstWindow.socket, FirstWindow.printWriter, this.inputUser.getText(), "1");
         //esperamos a la que el server nos mande toda la información que está guardada de él
-        ConnectionWithServer.receiveData(FirstWindow.socket, FirstWindow.bufferedReader);
-        if (doctor == null) {
+        boolean received= ConnectionWithServer.receiveData(FirstWindow.socket, FirstWindow.bufferedReader);
+        if (!received) {
             this.ErrorLogin.setForeground(Color.red);
             this.ErrorLogin.setVisible(true);
         } else {
@@ -135,9 +135,6 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
             this.setVisible(false);
             rd.setVisible(true);
         }
-        DoctorInsideWindow rd = new DoctorInsideWindow();
-        this.setVisible(false);
-        rd.setVisible(true);
     }//GEN-LAST:event_LoginButActionPerformed
 
     private void BackButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButActionPerformed

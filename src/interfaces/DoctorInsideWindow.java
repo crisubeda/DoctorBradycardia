@@ -5,6 +5,7 @@
  */
 package interfaces;
 
+import Utilities.ConnectionWithServer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -24,7 +25,7 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
         DefaultListModel<String> model = new DefaultListModel<>();
         JList<String> list = new JList<>(model);
         for (int i = 0; i < 10; i++) { //size de la lista
-            model.addElement("a" + i);
+            model.addElement(" ");
         }
         this.ListPatient.setModel(model);
     }
@@ -148,15 +149,30 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_InputNameActionPerformed
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
+        
         DefaultListModel<String> model2 = new DefaultListModel<>();
         JList<String> list = new JList<>(model2);
         String busqueda = this.InputName.getText();
-        for (int i = 0; i < this.ListPatient.getModel().getSize(); i++) {
-            this.ListPatient.setSelectedIndex(i);
-            String b = this.ListPatient.getSelectedValue();
-            if (b.contains(busqueda)) {
-                model2.addElement(b);
+        System.out.println("Hemos mandado el nombre");
+        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "s#" + busqueda);
+        String ListNames=ConnectionWithServer.receiveSomething(FirstWindow.socket, FirstWindow.bufferedReader);
+        System.out.println("Hemos recibido esto: " +ListNames);
+        String[] Names=new String[100];
+        int position=0;
+        String nameTaken= "";
+        for(int i=0;i<ListNames.length();i++){
+            char a = ListNames.charAt(i);
+            while(a != ';'){
+                nameTaken = nameTaken + a;
+                i++;
+                a = ListNames.charAt(i); 
             }
+            Names[position]=nameTaken;
+            nameTaken="";
+            position++;
+        }
+        for (int i = 0; i < Names.length; i++) {
+            model2.addElement(Names[i]);
         }
         this.ListPatient.setModel(model2);
         // TODO add your handling code here:

@@ -5,6 +5,7 @@
  */
 package Utilities;
 
+import Pojos.Patient;
 import interfaces.DoctorLoginWindow;
 import java.io.BufferedReader;
 import java.io.File;
@@ -81,8 +82,8 @@ public class ConnectionWithServer {
     }
 //public static PrintWi
 
-    public static void receiveData(Socket socket, BufferedReader bufferedReader) {
-
+    public static boolean receiveData(Socket socket, BufferedReader bufferedReader) {
+        boolean received = true;
         try {
             // bufferedReader = new BufferedReader(
             //  new InputStreamReader(socket.getInputStream()));
@@ -109,6 +110,24 @@ public class ConnectionWithServer {
                         contador++;
                         data = "";
                     }
+                    if(datos[3].equals("null")){
+                        System.out.println("El email es null");
+                        received=false;
+                    }
+                    else{
+                        System.out.println("el email es diferente de null");
+                        if (Exceptions.checkInt(datos[0])) {
+                            DoctorLoginWindow.doctor.setID(Exceptions.convertInt(datos[0]));
+                        } else {
+                            System.out.println("no se puede pasar");
+                            DoctorLoginWindow.doctor.setID(30);
+                        }
+                        DoctorLoginWindow.doctor.setFullName(datos[1]);
+                        DoctorLoginWindow.doctor.setUsername(datos[2]);
+                        DoctorLoginWindow.doctor.setEmail(datos[5]);
+                        //PatientPrincipalWindow.patient.setPassword(password);
+                        received=true;
+                    }
                     /*System.out.println("1: " + datos[0]);
                     System.out.println("2: " + datos[1]);
                     System.out.println("3: " + datos[2]);
@@ -119,24 +138,12 @@ public class ConnectionWithServer {
                     System.out.println("Error despues de esto");*/
                     // return "p#" + ID + ";" + fullName + ";" + username + ";" + address + ";" + phonenumber + ";" +
                     //email + ";" + diagnosis + ";" + docId + ";" + password + ";" + macBitalino + ";" + bitalino + ";#";
-                    if (Exceptions.checkInt(datos[0])) {
-                        DoctorLoginWindow.doctor.setID(Exceptions.convertInt(datos[0]));
-                    } else {
-                        System.out.println("no se puede pasar");
-                        DoctorLoginWindow.doctor.setID(30);
-                    }
-                    DoctorLoginWindow.doctor.setFullName(datos[1]);
-                    DoctorLoginWindow.doctor.setUsername(datos[2]);
-                    DoctorLoginWindow.doctor.setEmail(datos[5]);
-                    //PatientPrincipalWindow.patient.setPassword(password);
-                    break;
-                case 'e':
-                    DoctorLoginWindow.doctor=null;
                     break;
             }
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionWithServer.class.getName()).log(Level.SEVERE, null, ex);
+            received=false;
         }
+        return received;
     }
 
     public static void sendDoctor(Socket socket, PrintWriter printWriter, String username, String password) {
@@ -191,4 +198,25 @@ public class ConnectionWithServer {
         return error;
     }
 
+    public static void sendNewPatient(Socket socket, PrintWriter printWriter, Patient patient) {
+        boolean error = false;
+        printWriter.println(patient.toString());
+    }
+
+    public static void sendSomething(Socket socket, PrintWriter printWriter, String mes) {
+        printWriter.println(mes);
+    }
+    
+    public static String receiveSomething(Socket socket, BufferedReader bf) {
+          String line = "";
+           try {
+               line = bf.readLine();
+           } catch (IOException ex) {
+               //Logger.getLogger(ConnectionWithServer.class.getName()).log(Level.SEVERE, null, ex);
+               line = "Error";
+           }
+          return line;            
+     }
 }
+
+
