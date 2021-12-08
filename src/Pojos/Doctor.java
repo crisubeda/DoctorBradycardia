@@ -15,17 +15,25 @@ public class Doctor {
     String fullName;
     String username;
     String email;
-    private byte[] password;
+    String password;
 
     public Doctor() {
         this.fullName = "";
         this.username = "";
         //this.password = "";
     }
-    public Doctor(String username, String fullname, byte[] password) {
+    public Doctor(String username, String fullname, String password) {
         super();
         this.fullName = fullName;
         this.username = username;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
     }
 
