@@ -19,7 +19,5 @@ public interface PatientManager {
 
     public void modifyPatient(Patient pat);
 
-    public Patient getPatientById(int id);
-
     public Patient getPatientByUsername(String Username);
 }

@@ -61,8 +61,6 @@ public class ConnectionWithServer {
         //datos[1] ---> PORT SERVER SOCKET
         //datos[2] ---> IP DB SERVER
         //datos[3] ---> PORT DB SERVER
-        System.out.println(datos[1]);
-        System.out.println(Utilities.Exceptions.checkFloat(datos[1]));
         return datos;
     }
 
@@ -74,13 +72,12 @@ public class ConnectionWithServer {
             //in datos[1] we have the number of the port whereas in datos[0] the ip address
             int ip = Utilities.Exceptions.convertInt(datos[1]);
             socket1 = new Socket(datos[0], ip);
-            System.out.println("socket info1: " + socket1.getLocalPort());
         } catch (IOException ex) {
             error = true;
         }
         return socket1;
     }
-//public static PrintWi
+
 
     public static boolean receiveData(Socket socket, BufferedReader bufferedReader) {
         boolean received = true;
@@ -89,9 +86,7 @@ public class ConnectionWithServer {
             //  new InputStreamReader(socket.getInputStream()));
             String[] datos = new String[100];
             //vamos a leer toda la información que pasa el server del paciente
-            System.out.println("Ha entrado en receiveData");
             String line = bufferedReader.readLine();
-            System.out.println("la linea es: " +line);
             int i = 0;
             int contador = 0;
             String data = "";
@@ -100,26 +95,19 @@ public class ConnectionWithServer {
                     while (line.charAt(i + 2) != '#') {
                         while (line.charAt(i + 2) != ';') {
                             data = data.concat(Character.toString(line.charAt(i + 2)));
-                            //System.out.println("El contador de chars en con: " + i + " el string: " + cap);
                             i++;
                         }
-                        //System.out.println("Con es:" + con);
                         datos[contador] = data;
                         i++;
-                        System.out.println("El contador de i es: " +contador + "el dato es: " +datos[contador]);
                         contador++;
                         data = "";
                     }
                     if(datos[3].equals("null")){
-                        System.out.println("El email es null");
                         received=false;
-                    }
-                    else{
-                        System.out.println("el email es diferente de null");
+                    }else{
                         if (Exceptions.checkInt(datos[0])) {
                             DoctorLoginWindow.doctor.setID(Exceptions.convertInt(datos[0]));
                         } else {
-                            System.out.println("no se puede pasar");
                             DoctorLoginWindow.doctor.setID(30);
                         }
                         DoctorLoginWindow.doctor.setFullName(datos[1]);
@@ -128,16 +116,6 @@ public class ConnectionWithServer {
                         //PatientPrincipalWindow.patient.setPassword(password);
                         received=true;
                     }
-                    /*System.out.println("1: " + datos[0]);
-                    System.out.println("2: " + datos[1]);
-                    System.out.println("3: " + datos[2]);
-                    System.out.println("4: " + datos[3]);
-                    System.out.println("5: " + datos[4]);
-                    System.out.println("6: " + datos[5]);
-                    System.out.println("7: " + datos[7]);
-                    System.out.println("Error despues de esto");*/
-                    // return "p#" + ID + ";" + fullName + ";" + username + ";" + address + ";" + phonenumber + ";" +
-                    //email + ";" + diagnosis + ";" + docId + ";" + password + ";" + macBitalino + ";" + bitalino + ";#";
                     break;
             }
         } catch (IOException ex) {
@@ -148,10 +126,6 @@ public class ConnectionWithServer {
 
     public static void sendDoctor(Socket socket, PrintWriter printWriter, String username, String password) {
         boolean error = false;
-        //try {
-        //OutputStream outputStream = new OutputStream();
-        //outputStream = socket.getOutputStream();+
-        System.out.println("socket info: " + socket.getLocalPort());
         String send = "d#" + username + ";" + password;
         //se manda al server un String que contiene el usuario y el password
         printWriter.println(send);
@@ -166,7 +140,6 @@ public class ConnectionWithServer {
             OutputStream outputStream = socket.getOutputStream();
             while (i != data.length()) {
                 character = data.charAt(i);
-                System.out.println(character);
                 outputStream.write(character);
                 outputStream.flush();
                 try {
@@ -208,15 +181,65 @@ public class ConnectionWithServer {
     }
     
     public static String receiveSomething(Socket socket, BufferedReader bf) {
-          String line = "";
-           try {
-               line = bf.readLine();
-           } catch (IOException ex) {
-               //Logger.getLogger(ConnectionWithServer.class.getName()).log(Level.SEVERE, null, ex);
-               line = "Error";
-           }
-          return line;            
+        String line = "";
+        try {
+            line = bf.readLine();
+        } catch (IOException ex) {
+            //Logger.getLogger(ConnectionWithServer.class.getName()).log(Level.SEVERE, null, ex);
+            line = "Error";
+        }
+        return line;            
      }
+    
+    public static boolean receivePatient(Patient patient, Socket socket, BufferedReader bufferedReader) {
+        boolean correct = false;
+        try {
+            String[] datos = new String[100];
+            //vamos a leer toda la información que pasa el server del paciente
+            String line = bufferedReader.readLine();
+            int i = 0;
+            int contador = 0;
+            String data = "";
+            switch (line.charAt(0)) {
+                case 'p':
+                    while (line.charAt(i + 2) != '#') {
+                        while (line.charAt(i + 2) != ';') {
+                            data = data.concat(Character.toString(line.charAt(i + 2)));
+                            i++;
+                        }
+                        datos[contador] = data;
+                        i++;
+                        contador++;
+                        data = "";
+                    }
+                    if (datos[5].equals("null")) {
+                        correct = false;
+                    } else {
+                        if (Exceptions.checkInt(datos[0])) {
+                            patient.setID(Exceptions.convertInt(datos[0]));
+                        } else {
+                            System.out.println("no se puede pasar");
+                            patient.setID(30);
+                        }
+                        patient.setFullName(datos[1]);
+                        patient.setUsername(datos[2]);
+                        patient.setAddress(datos[3]);
+                        patient.setPhonenumber(datos[4]);
+                        patient.setEmail(datos[5]);
+                        patient.setDiagnosis(datos[6]);
+                        patient.setDocId(Exceptions.convertInt(datos[7]));
+                        patient.setPassword(datos[8]);
+                        patient.setMacBitalino(datos[9]);
+                        patient.setNewBitalino();
+                        correct = true;
+                    }
+                    break;
+            }
+        } catch (IOException ex) {
+            correct = false;
+        }
+        return correct;
+    }
 }
 
 

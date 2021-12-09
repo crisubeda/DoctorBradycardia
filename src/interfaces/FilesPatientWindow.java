@@ -7,6 +7,12 @@ package interfaces;
 
 import Pojos.Patient;
 import Utilities.ConnectionWithServer;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -14,23 +20,42 @@ import javax.swing.JList;
  *
  * @author carmen
  */
-public class DoctorInsideWindow extends javax.swing.JFrame {
+public class FilesPatientWindow extends javax.swing.JFrame {
     public static Patient patient;
 
     /**
      * Creates new form DoctorInsideWindow
      */
-    public DoctorInsideWindow() {
+    public FilesPatientWindow() {
         initComponents();
         patient=new Patient();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        DefaultListModel<String> model = new DefaultListModel<>();
-        JList<String> list = new JList<>(model);
-        for (int i = 0; i < 10; i++) { //size de la lista
-            model.addElement(" ");
+        
+        DefaultListModel<String> model2 = new DefaultListModel<>();
+        JList<String> list = new JList<>(model2);
+        String[] Names=new String[100];
+        int position=0;
+        String nameTaken= "";
+        
+        for(int i=0;i<PatientInformation.filesNames.length();i++){
+            char a = PatientInformation.filesNames.charAt(i);
+            while(a != ';'){
+                nameTaken = nameTaken + a;
+                i++;
+                a = PatientInformation.filesNames.charAt(i); 
+            }
+            
+            Names[position]=nameTaken;
+            nameTaken="";
+            position++;
         }
-        this.ListPatient.setModel(model);
+        for (int i = 0; i < Names.length; i++) {
+            if(!Names[i].equals("null")){
+                model2.addElement(Names[i]);
+            }
+        }
+        this.ListPatient.setModel(model2);
     }
 
     /**
@@ -42,18 +67,13 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         GoBut = new javax.swing.JButton();
         ExitBut = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListPatient = new javax.swing.JList<>();
-        InputName = new javax.swing.JTextField();
-        SearchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Patient name:");
 
         jLabel2.setText("VISUALICE RESULTS:");
 
@@ -74,19 +94,6 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
         ListPatient.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(ListPatient);
 
-        InputName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputNameActionPerformed(evt);
-            }
-        });
-
-        SearchButton.setText("Search");
-        SearchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,16 +105,8 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(InputName, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 17, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ExitBut)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -119,74 +118,53 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel2)
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(InputName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ExitBut)
                     .addComponent(GoBut))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void GoButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButActionPerformed
-        //Check Patient exist
-        String busqueda=this.ListPatient.getSelectedValue();
-        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "g#" + busqueda);
-        boolean received = ConnectionWithServer.receivePatient(patient, FirstWindow.socket, FirstWindow.bufferedReader);
-        if(received){
-            PatientInformation rd = new PatientInformation();
-            this.setVisible(false);
-            rd.setVisible(true);
-        }
-        // show all data in new window
-    }//GEN-LAST:event_GoButActionPerformed
-
     private void ExitButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButActionPerformed
-        final FirstWindow rd = new FirstWindow();
+            final FirstWindow rd = new FirstWindow();
         this.setVisible(false);
         rd.setVisible(true);         // TODO add your handling code here:
     }//GEN-LAST:event_ExitButActionPerformed
 
-    private void InputNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNameActionPerformed
+    private void GoButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButActionPerformed
+        FileWriter myWriter=null;
+        String line;
         
-    }//GEN-LAST:event_InputNameActionPerformed
-
-    private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
-        DefaultListModel<String> model2 = new DefaultListModel<>();
-        JList<String> list = new JList<>(model2);
-        String busqueda = this.InputName.getText();
-        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "s#" + busqueda);
-        String ListNames=ConnectionWithServer.receiveSomething(FirstWindow.socket, FirstWindow.bufferedReader);
-        String[] Names=new String[100];
-        int position=0;
-        String nameTaken= "";
-        for(int i=0;i<ListNames.length();i++){
-            char a = ListNames.charAt(i);
-            while(a != ';'){
-                nameTaken = nameTaken + a;
-                i++;
-                a = ListNames.charAt(i); 
+        try {
+            //Check the Patient exist
+            File file=new File(".");
+            String busqueda=this.ListPatient.getSelectedValue();
+            ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "s#" + busqueda);
+            myWriter = new FileWriter(file);
+            while((line=FirstWindow.bufferedReader.readLine()) != null && !line.equals("back")){
+                myWriter.write(line);
+            }   
+            myWriter.close();
+            Desktop desktop = Desktop.getDesktop();  
+            if(file.exists()){ //checks if the file exists or not  
+                desktop.open(file); //opens the specified file  
             }
-            Names[position]=nameTaken;
-            nameTaken="";
-            position++;
-        }
-        for (int i = 0; i < Names.length; i++) {
-            if(!Names[i].equals("null")){
-                System.out.println("El nombes es: " +Names[i]);
-                model2.addElement(Names[i]);
+            // show all data in new window
+        } catch (IOException ex) {
+            Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                myWriter.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        this.ListPatient.setModel(model2);
-    }//GEN-LAST:event_SearchButtonActionPerformed
+    }//GEN-LAST:event_GoButActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,20 +183,21 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DoctorInsideWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FilesPatientWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DoctorInsideWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FilesPatientWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DoctorInsideWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FilesPatientWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DoctorInsideWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FilesPatientWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DoctorInsideWindow().setVisible(true);
+                new FilesPatientWindow().setVisible(true);
             }
         });
     }
@@ -226,10 +205,7 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ExitBut;
     private javax.swing.JButton GoBut;
-    private javax.swing.JTextField InputName;
     private javax.swing.JList<String> ListPatient;
-    private javax.swing.JButton SearchButton;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

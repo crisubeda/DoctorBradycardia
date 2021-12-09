@@ -14,6 +14,5 @@ import Pojos.Doctor;
 public interface DoctorManager {
     public void createDoctor(Doctor doc);
     public void deleteDoctor(Integer id);
-    public void modifyDoctor(Doctor doc);
     public Integer searchByFullName(String fullname);
 }

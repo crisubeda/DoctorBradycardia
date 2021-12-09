@@ -49,7 +49,6 @@ public class SQLPatientManager implements PatientManager {
     }
 
     public void deletePatient(Integer id) {
-
         String sqlpatient = "DELETE FROM Patient WHERE idPatient=?";
         try {
             PreparedStatement stm = c.prepareStatement(sqlpatient);
@@ -83,37 +82,6 @@ public class SQLPatientManager implements PatientManager {
         }
     }
 
-    public Patient getPatientById(int id) {
-
-        String sqlpatient = "SELECT * FROM Patient WHERE id=?";
-        Patient patient = new Patient();
-        try {
-            PreparedStatement stm = c.prepareStatement(sqlpatient);
-            stm.setInt(1, id);
-            ResultSet rs = stm.executeQuery();
-
-            while (rs.next()) {
-                Integer patID = rs.getInt("ID");
-                String name = rs.getString("Name");
-                String username = rs.getString("Username");
-                String address = rs.getString("Address");
-                String phoneNumber = rs.getString("PhoneNumber");
-                String email = rs.getString("Email");
-                String diagnosis = rs.getString("Diagnosis");
-                String macBitalino = rs.getString("macBitalino");
-                //obtener nombre del doctor
-               // patient = new Patient(patID, name, username, address, phoneNumber, email, diagnosis, macBitalino);
-
-            }
-            rs.close();
-            stm.close();
-        } catch (SQLException ex) {
-            patient = null;
-            Logger.getLogger(SQLPatientManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return patient;
-    }
-
     public Patient getPatientByUsername(String username) {
         Patient patient = new Patient();
         try {
@@ -143,7 +111,6 @@ public class SQLPatientManager implements PatientManager {
             patient = null;
             e.printStackTrace();
         }
-
         return patient;
     }
 }

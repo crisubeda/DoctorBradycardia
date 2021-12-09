@@ -15,19 +15,6 @@ import interfaces.*;
  * @author carmen
  */
 public class Exceptions {
-    public static boolean checkUsername(boolean patient, String username) {
-        boolean free = false;
-        if (patient) {
-            Patient a = DoctorLoginWindow.patientManager.getPatientByUsername(username);
-            if (a == null) {
-                free = true;
-            }
-        } else { // si no es patient es doctor
-            // Doctor
-        }
-        return free;
-    }
-
     public static boolean checkEmail(String email) {
         boolean isEmail = true;
         int index = email.indexOf("@");
