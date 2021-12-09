@@ -5,16 +5,12 @@
  */
 package Utilities;
 
-import Pojos.Doctor;
-import Pojos.Patient;
-import interfaces.*;
-
-
 /**
  *
  * @author carmen
  */
 public class Exceptions {
+
     public static boolean checkEmail(String email) {
         boolean isEmail = true;
         int index = email.indexOf("@");
@@ -73,5 +69,22 @@ public class Exceptions {
             isPhone = true;
         }
         return isPhone;
+    }
+
+    public static String[] takeDiagnosis(String string) {
+        int i = 0;
+        int contador = 0;
+        String[] datos = new String[6];
+        String data = "";
+        for (i = 0; i < string.length(); i++) {
+            while (string.charAt(i) != ';') {
+                data = data.concat(Character.toString(string.charAt(i)));
+                i++;
+            }
+            datos[contador] = data;
+            contador++;
+            data = "";
+        }
+        return datos;
     }
 }

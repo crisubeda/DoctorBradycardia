@@ -6,7 +6,6 @@
 package interfaces;
 
 import Pojos.Doctor;
-import Pojos.Patient;
 import Utilities.ConnectionWithServer;
 import db.interfaces.DBManager;
 import db.interfaces.PatientManager;
@@ -18,10 +17,10 @@ import java.awt.Color;
  */
 public class DoctorLoginWindow extends javax.swing.JFrame {
 
-        public static Doctor doctor;
-        public static DBManager dbManager;
-        public static PatientManager patientManager;
-        
+    public static Doctor doctor;
+    public static DBManager dbManager;
+    public static PatientManager patientManager;
+
     public DoctorLoginWindow() {
         initComponents();
         this.ErrorLogin.setVisible(false);
@@ -63,7 +62,7 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
             }
         });
 
-        BackBut.setText("Back");
+        BackBut.setText("Exit");
         BackBut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BackButActionPerformed(evt);
@@ -125,7 +124,7 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
         //comprobar el username y el pass        // TODO add your handling code here:
         ConnectionWithServer.sendDoctor(FirstWindow.socket, FirstWindow.printWriter, this.inputUser.getText(), "1");
         //esperamos a la que el server nos mande toda la información que está guardada de él
-        boolean received= ConnectionWithServer.receiveData(FirstWindow.socket, FirstWindow.bufferedReader);
+        boolean received = ConnectionWithServer.receiveData(FirstWindow.socket, FirstWindow.bufferedReader);
         if (!received) {
             this.ErrorLogin.setForeground(Color.red);
             this.ErrorLogin.setVisible(true);
@@ -138,9 +137,8 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_LoginButActionPerformed
 
     private void BackButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButActionPerformed
-        FirstWindow rd = new FirstWindow();
-        this.setVisible(false);
-        rd.setVisible(true);        // TODO add your handling code here:
+        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "ex");
+        System.exit(0);      // TODO add your handling code here:
     }//GEN-LAST:event_BackButActionPerformed
 
     /**

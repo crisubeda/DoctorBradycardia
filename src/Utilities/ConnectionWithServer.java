@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -78,7 +76,6 @@ public class ConnectionWithServer {
         return socket1;
     }
 
-
     public static boolean receiveData(Socket socket, BufferedReader bufferedReader) {
         boolean received = true;
         try {
@@ -102,9 +99,9 @@ public class ConnectionWithServer {
                         contador++;
                         data = "";
                     }
-                    if(datos[3].equals("null")){
-                        received=false;
-                    }else{
+                    if (datos[3].equals("null")) {
+                        received = false;
+                    } else {
                         if (Exceptions.checkInt(datos[0])) {
                             DoctorLoginWindow.doctor.setID(Exceptions.convertInt(datos[0]));
                         } else {
@@ -114,12 +111,12 @@ public class ConnectionWithServer {
                         DoctorLoginWindow.doctor.setUsername(datos[2]);
                         DoctorLoginWindow.doctor.setEmail(datos[5]);
                         //PatientPrincipalWindow.patient.setPassword(password);
-                        received=true;
+                        received = true;
                     }
                     break;
             }
         } catch (IOException ex) {
-            received=false;
+            received = false;
         }
         return received;
     }
@@ -179,7 +176,7 @@ public class ConnectionWithServer {
     public static void sendSomething(Socket socket, PrintWriter printWriter, String mes) {
         printWriter.println(mes);
     }
-    
+
     public static String receiveSomething(Socket socket, BufferedReader bf) {
         String line = "";
         try {
@@ -188,9 +185,9 @@ public class ConnectionWithServer {
             //Logger.getLogger(ConnectionWithServer.class.getName()).log(Level.SEVERE, null, ex);
             line = "Error";
         }
-        return line;            
-     }
-    
+        return line;
+    }
+
     public static boolean receivePatient(Patient patient, Socket socket, BufferedReader bufferedReader) {
         boolean correct = false;
         try {
@@ -240,6 +237,5 @@ public class ConnectionWithServer {
         }
         return correct;
     }
+
 }
-
-

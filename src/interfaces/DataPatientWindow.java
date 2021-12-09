@@ -40,6 +40,7 @@ public class DataPatientWindow extends javax.swing.JFrame {
         phone = new javax.swing.JLabel();
         address = new javax.swing.JLabel();
         backbutton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,25 +61,37 @@ public class DataPatientWindow extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("See diagnosis");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(backbutton)
-                    .addComponent(address)
-                    .addComponent(phone)
-                    .addComponent(email)
-                    .addComponent(username)
-                    .addComponent(fullname))
-                .addContainerGap(298, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(backbutton)
+                            .addComponent(address)
+                            .addComponent(phone)
+                            .addComponent(email)
+                            .addComponent(username)
+                            .addComponent(fullname)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jButton1)))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
+                .addGap(26, 26, 26)
                 .addComponent(fullname)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(username)
@@ -88,7 +101,9 @@ public class DataPatientWindow extends javax.swing.JFrame {
                 .addComponent(phone)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(address)
-                .addGap(31, 31, 31)
+                .addGap(29, 29, 29)
+                .addComponent(jButton1)
+                .addGap(29, 29, 29)
                 .addComponent(backbutton)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
@@ -102,6 +117,12 @@ public class DataPatientWindow extends javax.swing.JFrame {
         rd.setVisible(true);
     }//GEN-LAST:event_backbuttonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DiagnosisView rd = new DiagnosisView();
+        this.setVisible(false);
+        rd.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -109,7 +130,7 @@ public class DataPatientWindow extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -142,6 +163,7 @@ public class DataPatientWindow extends javax.swing.JFrame {
     private javax.swing.JButton backbutton;
     private javax.swing.JLabel email;
     private javax.swing.JLabel fullname;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel phone;
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables

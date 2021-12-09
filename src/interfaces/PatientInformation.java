@@ -12,13 +12,17 @@ import Utilities.ConnectionWithServer;
  * @author drijc
  */
 public class PatientInformation extends javax.swing.JFrame {
+
     public static String filesNames;
+
     /**
      * Creates new form PatientInformation
      */
     public PatientInformation() {
         initComponents();
-        filesNames= "";
+        filesNames = "";
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**
@@ -94,7 +98,7 @@ public class PatientInformation extends javax.swing.JFrame {
         // TODO add your handling code here:
         //vamos a decir al servidor que queremos files
         ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "files");
-        filesNames=ConnectionWithServer.receiveSomething(FirstWindow.socket, FirstWindow.bufferedReader);
+        filesNames = ConnectionWithServer.receiveSomething(FirstWindow.socket, FirstWindow.bufferedReader);
         FilesPatientWindow rd = new FilesPatientWindow();
         this.setVisible(false);
         rd.setVisible(true);
@@ -107,7 +111,7 @@ public class PatientInformation extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

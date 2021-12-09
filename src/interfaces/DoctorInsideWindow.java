@@ -15,6 +15,7 @@ import javax.swing.JList;
  * @author carmen
  */
 public class DoctorInsideWindow extends javax.swing.JFrame {
+
     public static Patient patient;
 
     /**
@@ -22,7 +23,7 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
      */
     public DoctorInsideWindow() {
         initComponents();
-        patient=new Patient();
+        patient = new Patient();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         DefaultListModel<String> model = new DefaultListModel<>();
@@ -138,10 +139,10 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
 
     private void GoButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButActionPerformed
         //Check Patient exist
-        String busqueda=this.ListPatient.getSelectedValue();
+        String busqueda = this.ListPatient.getSelectedValue();
         ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "g#" + busqueda);
         boolean received = ConnectionWithServer.receivePatient(patient, FirstWindow.socket, FirstWindow.bufferedReader);
-        if(received){
+        if (received) {
             PatientInformation rd = new PatientInformation();
             this.setVisible(false);
             rd.setVisible(true);
@@ -150,13 +151,12 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_GoButActionPerformed
 
     private void ExitButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButActionPerformed
-        final FirstWindow rd = new FirstWindow();
-        this.setVisible(false);
-        rd.setVisible(true);         // TODO add your handling code here:
+        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "re");
+        System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_ExitButActionPerformed
 
     private void InputNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputNameActionPerformed
-        
+
     }//GEN-LAST:event_InputNameActionPerformed
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
@@ -164,24 +164,24 @@ public class DoctorInsideWindow extends javax.swing.JFrame {
         JList<String> list = new JList<>(model2);
         String busqueda = this.InputName.getText();
         ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "s#" + busqueda);
-        String ListNames=ConnectionWithServer.receiveSomething(FirstWindow.socket, FirstWindow.bufferedReader);
-        String[] Names=new String[100];
-        int position=0;
-        String nameTaken= "";
-        for(int i=0;i<ListNames.length();i++){
+        String ListNames = ConnectionWithServer.receiveSomething(FirstWindow.socket, FirstWindow.bufferedReader);
+        String[] Names = new String[100];
+        int position = 0;
+        String nameTaken = "";
+        for (int i = 0; i < ListNames.length(); i++) {
             char a = ListNames.charAt(i);
-            while(a != ';'){
+            while (a != ';') {
                 nameTaken = nameTaken + a;
                 i++;
-                a = ListNames.charAt(i); 
+                a = ListNames.charAt(i);
             }
-            Names[position]=nameTaken;
-            nameTaken="";
+            Names[position] = nameTaken;
+            nameTaken = "";
             position++;
         }
         for (int i = 0; i < Names.length; i++) {
-            if(!Names[i].equals("null")){
-                System.out.println("El nombes es: " +Names[i]);
+            if (!Names[i].equals("null")) {
+                System.out.println("El nombes es: " + Names[i]);
                 model2.addElement(Names[i]);
             }
         }
