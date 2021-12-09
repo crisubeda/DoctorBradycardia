@@ -123,13 +123,15 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
 
     private void LoginButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButActionPerformed
         //comprobar el username y el pass        // TODO add your handling code here:
-        ConnectionWithServer.sendDoctor(FirstWindow.socket, FirstWindow.printWriter, this.inputUser.getText(), "1");
+        ConnectionWithServer.sendDoctor(FirstWindow.socket, FirstWindow.printWriter, this.inputUser.getText(), this.inputPassword.getText());
         //esperamos a la que el server nos mande toda la información que está guardada de él
         boolean received= ConnectionWithServer.receiveData(FirstWindow.socket, FirstWindow.bufferedReader);
         if (!received) {
+            ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "again");
             this.ErrorLogin.setForeground(Color.red);
             this.ErrorLogin.setVisible(true);
         } else {
+            ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "done");
             this.ErrorLogin.setVisible(false);
             DoctorInsideWindow rd = new DoctorInsideWindow();
             this.setVisible(false);
