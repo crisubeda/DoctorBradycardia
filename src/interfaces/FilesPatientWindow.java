@@ -140,7 +140,7 @@ public class FilesPatientWindow extends javax.swing.JFrame {
         
         try {
             //Check the Patient exist
-            File file = new File("files/files.txt");
+            File file = new File("files/view.txt");
             if(!file.exists()){
                 file.createNewFile();
             }
@@ -151,15 +151,16 @@ public class FilesPatientWindow extends javax.swing.JFrame {
             try {
                 Object d = obj.readObject();
                 file = (File) d;
-                File dest = new File("files/view.txt");
+                file.renameTo(new File("file/view.txt"));
+                //File dest = new File("files/view.txt");
       //Renaming the file
-               boolean bool = file.renameTo(dest.getAbsoluteFile());
+              /* boolean bool = file.renameTo(dest.getAbsoluteFile());
                 // boolean bool = file.renameTo(dest);
                  if(bool) {
                      System.out.println("File moved successfully ........");
                  }else {
                       System.out.println("Unable to move the file ........");
-                  }
+                  }*/
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
