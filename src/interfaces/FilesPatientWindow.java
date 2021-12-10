@@ -153,7 +153,8 @@ public class FilesPatientWindow extends javax.swing.JFrame {
                 file = (File) d;
                 File dest = new File("files/view.txt");
       //Renaming the file
-                 boolean bool = file.renameTo(dest);
+               boolean bool = file.renameTo(dest.getAbsoluteFile());
+                // boolean bool = file.renameTo(dest);
                  if(bool) {
                      System.out.println("File moved successfully ........");
                  }else {
