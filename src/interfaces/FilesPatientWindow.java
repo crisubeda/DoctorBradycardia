@@ -129,7 +129,7 @@ public class FilesPatientWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ExitButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButActionPerformed
-        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "e#");
+        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "back");
         PatientInformation rd = new PatientInformation();
         this.setVisible(false);
         rd.setVisible(true);        // TODO add your handling code here:
@@ -137,7 +137,7 @@ public class FilesPatientWindow extends javax.swing.JFrame {
 
     private void GoButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButActionPerformed
         String line;
-        
+        // ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "new" );
         try {
             //Check the Patient exist
             File file = new File("files/view.txt");
@@ -165,28 +165,14 @@ public class FilesPatientWindow extends javax.swing.JFrame {
 			} catch (Exception e) {   
 				e.printStackTrace();  
 				}
-		//}
-            //ObjectInputStream  obj = new ObjectInputStream(inputstream);
-           /* try {
-                Object d = obj.readObject();
-                file = (File) d;
-                file.renameTo(new File("file/view.txt"));
-                //File dest = new File("files/view.txt");
-      //Renaming the file
-              /* boolean bool = file.renameTo(dest.getAbsoluteFile());
-                // boolean bool = file.renameTo(dest);
-                 if(bool) {
-                     System.out.println("File moved successfully ........");
-                 }else {
-                      System.out.println("Unable to move the file ........");
-                  }*/
-          /*  } catch (ClassNotFoundException ex) {
-                Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+		
             Desktop desktop = Desktop.getDesktop();  
             if(file.exists()){ //checks if the file exists or not  
                 desktop.open(file); //opens the specified file  
             }
+            FirstWindow rd = new FirstWindow();
+            this.setVisible(false);
+            rd.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
