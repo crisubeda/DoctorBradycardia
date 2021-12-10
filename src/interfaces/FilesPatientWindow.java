@@ -147,8 +147,27 @@ public class FilesPatientWindow extends javax.swing.JFrame {
             String busqueda=this.ListPatient.getSelectedValue();
             ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "s#" + busqueda);
             InputStream inputstream =FirstWindow.socket.getInputStream();
-            ObjectInputStream  obj = new ObjectInputStream(inputstream);
-            try {
+           // public void getFile() {  
+		byte[] b=new byte[1024];  
+		 try {// Defina la secuencia de entrada,
+			InputStream in = FirstWindow.socket.getInputStream();   
+			DataInputStream din = new DataInputStream (new BufferedInputStream (in)); // Cree el archivo que se guardará   
+			File f = new File("files/view.txt");   
+			RandomAccessFile fw = new RandomAccessFile(f, "rw");      
+			int num = din.read(b);   
+			 while (num != -1) {// Escribe 0 ~ num bytes en el archivo    
+				 fw.write (b, 0, num); // Omita los bytes num y vuelva a escribir en el archivo   
+				 fw.skipBytes (num); // Leer bytes numéricos    
+				num = din.read(b);   
+				 } // Cerrar flujo de entrada y salida  
+			din.close();   
+			fw.close();  
+			} catch (Exception e) {   
+				e.printStackTrace();  
+				}
+		//}
+            //ObjectInputStream  obj = new ObjectInputStream(inputstream);
+           /* try {
                 Object d = obj.readObject();
                 file = (File) d;
                 file.renameTo(new File("file/view.txt"));
@@ -161,9 +180,9 @@ public class FilesPatientWindow extends javax.swing.JFrame {
                  }else {
                       System.out.println("Unable to move the file ........");
                   }*/
-            } catch (ClassNotFoundException ex) {
+          /*  } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
             Desktop desktop = Desktop.getDesktop();  
             if(file.exists()){ //checks if the file exists or not  
                 desktop.open(file); //opens the specified file  
