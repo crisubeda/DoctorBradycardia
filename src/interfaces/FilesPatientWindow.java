@@ -134,9 +134,10 @@ public class FilesPatientWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ExitButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButActionPerformed
-        final FirstWindow rd = new FirstWindow();
+        ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "e#");
+        DataPatientWindow rd = new DataPatientWindow();
         this.setVisible(false);
-        rd.setVisible(true);         // TODO add your handling code here:
+        rd.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_ExitButActionPerformed
 
     private void GoButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButActionPerformed
