@@ -11,6 +11,9 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -131,25 +134,35 @@ public class FilesPatientWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ExitButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButActionPerformed
-            final FirstWindow rd = new FirstWindow();
+        final FirstWindow rd = new FirstWindow();
         this.setVisible(false);
         rd.setVisible(true);         // TODO add your handling code here:
     }//GEN-LAST:event_ExitButActionPerformed
 
     private void GoButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButActionPerformed
-        FileWriter myWriter=null;
         String line;
         
         try {
             //Check the Patient exist
-            File file=new File(".");
+            File file = new File("files/files.txt");
+            if(!file.exists()){
+                file.createNewFile();
+            }
             String busqueda=this.ListPatient.getSelectedValue();
             ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "s#" + busqueda);
-            myWriter = new FileWriter(file);
+            /*myWriter = new FileWriter(file);
             while((line=FirstWindow.bufferedReader.readLine()) != null && !line.equals("back")){
                 myWriter.write(line);
             }   
-            myWriter.close();
+            myWriter.close();*/
+            InputStream inputstream =FirstWindow.socket.getInputStream();
+            ObjectInputStream  obj = new ObjectInputStream(inputstream);
+            try {
+                Object d = obj.readObject();
+                file = (File) d;
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Desktop desktop = Desktop.getDesktop();  
             if(file.exists()){ //checks if the file exists or not  
                 desktop.open(file); //opens the specified file  
@@ -157,12 +170,6 @@ public class FilesPatientWindow extends javax.swing.JFrame {
             // show all data in new window
         } catch (IOException ex) {
             Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                myWriter.close();
-            } catch (IOException ex) {
-                Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }//GEN-LAST:event_GoButActionPerformed
 

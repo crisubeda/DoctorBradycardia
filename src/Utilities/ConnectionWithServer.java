@@ -79,8 +79,6 @@ public class ConnectionWithServer {
     public static boolean receiveData(Socket socket, BufferedReader bufferedReader) {
         boolean received = true;
         try {
-            // bufferedReader = new BufferedReader(
-            //  new InputStreamReader(socket.getInputStream()));
             String[] datos = new String[100];
             //vamos a leer toda la información que pasa el server del paciente
             String line = bufferedReader.readLine();
@@ -110,7 +108,6 @@ public class ConnectionWithServer {
                         DoctorLoginWindow.doctor.setFullName(datos[1]);
                         DoctorLoginWindow.doctor.setUsername(datos[2]);
                         DoctorLoginWindow.doctor.setEmail(datos[5]);
-                        //PatientPrincipalWindow.patient.setPassword(password);
                         received = true;
                     }
                     break;

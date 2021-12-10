@@ -20,7 +20,6 @@ public class Doctor {
     public Doctor() {
         this.fullName = "";
         this.username = "";
-        //this.password = "";
     }
     public Doctor(String username, String fullname, String password) {
         super();

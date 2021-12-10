@@ -7,19 +7,19 @@ package Utilities;
 
 /**
  *
- * @author carmen
+ * @author drijc
  */
 public class Exceptions {
-
-    public static boolean checkEmail(String email) {
-        boolean isEmail = true;
-        int index = email.indexOf("@");
-        if (index != -1 && index != 0 && index != email.length()) {
-            isEmail = false;
+    
+    public static int convertInt(String integer) {
+        int isInt = 0;
+        try {
+            isInt = Integer.parseInt(integer);
+        } catch (NumberFormatException ex) {
         }
-        return true;
+        return isInt;
     }
-
+        
     public static boolean checkInt(String integer) {
         boolean isInt = true;
         try {
@@ -29,57 +29,21 @@ public class Exceptions {
         }
         return isInt;
     }
-
-    public static int convertInt(String integer) {
-        int isInt = 0;
-        try {
-            isInt = Integer.parseInt(integer);
-        } catch (NumberFormatException ex) {
-        }
-        return isInt;
-    }
-
-    public static boolean checkString(String integer) {
-        boolean isString = false;
-        try {
-            float a = Float.parseFloat(integer);
-        } catch (NumberFormatException ex) {
-            isString = true;
-        }
-        return isString;
-    }
-
-    public static boolean checkFloat(String integer) {
-        boolean isFloat = true;
-        try {
-            float a = Float.parseFloat(integer);
-        } catch (NumberFormatException ex) {
-            isFloat = false;
-        }
-        return isFloat;
-    }
-
-    public static boolean checkPhone(String phone) {
-        boolean isPhone = true;
-        if (phone.length() != 9) {
-            isPhone = false;
-        } else if (!checkInt(phone)) {
-            isPhone = false;
-        } else {
-            isPhone = true;
-        }
-        return isPhone;
-    }
-
+    
     public static String[] takeDiagnosis(String string) {
         int i = 0;
         int contador = 0;
-        String[] datos = new String[6];
+        String[] datos = new String[7];
         String data = "";
+        char a;
+        System.out.println("la length del string es: " +string.length());
         for (i = 0; i < string.length(); i++) {
-            while (string.charAt(i) != ';') {
-                data = data.concat(Character.toString(string.charAt(i)));
+            a=string.charAt(i);
+            while (a != '#') {
+                data = data + Character.toString(a);
+                System.out.println("Contador: " +i);
                 i++;
+                a=string.charAt(i);
             }
             datos[contador] = data;
             contador++;

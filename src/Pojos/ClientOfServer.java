@@ -23,8 +23,6 @@ public class ClientOfServer implements Runnable {
         this.socket = socket;
     }
 
-    //PARA EL PROJECT- le doctor no es con thrads, los patient no comparten nada a si que no tinen poruqe ser Runnable
-// the same code pero en el run method
     @Override
     public void run() {
         InputStream inputStream = null;
@@ -32,8 +30,6 @@ public class ClientOfServer implements Runnable {
             inputStream = socket.getInputStream();
             while ((byteRead = inputStream.read()) != -1) {
                 char caracter = (char) byteRead;
-                System.out.print(caracter);
-                //escribirlo en un second file
             }
         } catch (IOException ex) {
             error[3] = true;

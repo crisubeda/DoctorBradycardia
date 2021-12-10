@@ -23,7 +23,7 @@ public class Patient {
     Integer docId;
     private String password;
     private String macBitalino;
-    private BITalino bitalino; //no guardar en base de datos
+    private BITalino bitalino;
 
     public Patient(int id, String fullname, String username, String adress, String phonenumber, String email, String diagnosis, int docId, String pwd, String mac) {
         super();

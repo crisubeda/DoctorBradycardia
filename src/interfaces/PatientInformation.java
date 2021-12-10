@@ -19,6 +19,7 @@ public class PatientInformation extends javax.swing.JFrame {
      * Creates new form PatientInformation
      */
     public PatientInformation() {
+        System.out.println(DoctorInsideWindow.patient.getDiagnosis());
         initComponents();
         filesNames = "";
         this.setLocationRelativeTo(null);

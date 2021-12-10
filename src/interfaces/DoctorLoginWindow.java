@@ -7,8 +7,6 @@ package interfaces;
 
 import Pojos.Doctor;
 import Utilities.ConnectionWithServer;
-import db.interfaces.DBManager;
-import db.interfaces.PatientManager;
 import java.awt.Color;
 
 /**
@@ -18,9 +16,7 @@ import java.awt.Color;
 public class DoctorLoginWindow extends javax.swing.JFrame {
 
     public static Doctor doctor;
-    public static DBManager dbManager;
-    public static PatientManager patientManager;
-
+    
     public DoctorLoginWindow() {
         initComponents();
         this.ErrorLogin.setVisible(false);
