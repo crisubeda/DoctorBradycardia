@@ -56,6 +56,11 @@ public class PatientInformation extends javax.swing.JFrame {
         });
 
         exitButton.setText("EXIT");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +109,11 @@ public class PatientInformation extends javax.swing.JFrame {
         this.setVisible(false);
         rd.setVisible(true);
     }//GEN-LAST:event_filesActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+          ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "ex");      // TODO add your handling code here:
+          System.exit(0);
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     /**
      * @param args the command line arguments

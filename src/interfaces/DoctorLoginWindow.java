@@ -7,6 +7,8 @@ package interfaces;
 
 import Pojos.Doctor;
 import Utilities.ConnectionWithServer;
+import static interfaces.FirstWindow.printWriter;
+import static interfaces.FirstWindow.socket;
 import java.awt.Color;
 
 /**
@@ -38,10 +40,10 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         inputUser = new javax.swing.JTextField();
-        inputPassword = new javax.swing.JPasswordField();
         LoginBut = new javax.swing.JButton();
         BackBut = new javax.swing.JButton();
         ErrorLogin = new javax.swing.JLabel();
+        pas = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +69,12 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
 
         ErrorLogin.setText("Try again! That doctor doesn't exist ");
 
+        pas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,12 +91,11 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ErrorLogin)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel1)
-                        .addComponent(inputUser, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                        .addComponent(inputPassword)))
+                    .addComponent(jLabel1)
+                    .addComponent(inputUser, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .addComponent(pas))
                 .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
@@ -103,7 +110,7 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(inputPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(ErrorLogin)
                 .addGap(18, 18, 18)
@@ -118,13 +125,16 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
 
     private void LoginButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButActionPerformed
         //comprobar el username y el pass        // TODO add your handling code here:
-        ConnectionWithServer.sendDoctor(FirstWindow.socket, FirstWindow.printWriter, this.inputUser.getText(), "1");
+        ConnectionWithServer.sendDoctor(FirstWindow.socket, FirstWindow.printWriter, this.inputUser.getText(), this.pas.getText());
         //esperamos a la que el server nos mande toda la información que está guardada de él
         boolean received = ConnectionWithServer.receiveData(FirstWindow.socket, FirstWindow.bufferedReader);
         if (!received) {
             this.ErrorLogin.setForeground(Color.red);
             this.ErrorLogin.setVisible(true);
+            ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "again");
         } else {
+            
+            ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "done");
             this.ErrorLogin.setVisible(false);
             DoctorInsideWindow rd = new DoctorInsideWindow();
             this.setVisible(false);
@@ -136,6 +146,10 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
         ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "ex");
         System.exit(0);      // TODO add your handling code here:
     }//GEN-LAST:event_BackButActionPerformed
+
+    private void pasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,10 +191,10 @@ public class DoctorLoginWindow extends javax.swing.JFrame {
     private javax.swing.JButton BackBut;
     private javax.swing.JLabel ErrorLogin;
     private javax.swing.JButton LoginBut;
-    private javax.swing.JPasswordField inputPassword;
     private javax.swing.JTextField inputUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField pas;
     // End of variables declaration//GEN-END:variables
 }

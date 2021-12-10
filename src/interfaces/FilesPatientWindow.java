@@ -8,16 +8,11 @@ package interfaces;
 import Pojos.Patient;
 import Utilities.ConnectionWithServer;
 import java.awt.Desktop;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.*;
+
 
 /**
  *
@@ -87,7 +82,7 @@ public class FilesPatientWindow extends javax.swing.JFrame {
             }
         });
 
-        ExitBut.setText("Exit");
+        ExitBut.setText("Back");
         ExitBut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExitButActionPerformed(evt);
@@ -135,7 +130,7 @@ public class FilesPatientWindow extends javax.swing.JFrame {
 
     private void ExitButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButActionPerformed
         ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "e#");
-        DataPatientWindow rd = new DataPatientWindow();
+        PatientInformation rd = new PatientInformation();
         this.setVisible(false);
         rd.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_ExitButActionPerformed
@@ -151,11 +146,6 @@ public class FilesPatientWindow extends javax.swing.JFrame {
             }
             String busqueda=this.ListPatient.getSelectedValue();
             ConnectionWithServer.sendSomething(FirstWindow.socket, FirstWindow.printWriter, "s#" + busqueda);
-            /*myWriter = new FileWriter(file);
-            while((line=FirstWindow.bufferedReader.readLine()) != null && !line.equals("back")){
-                myWriter.write(line);
-            }   
-            myWriter.close();*/
             InputStream inputstream =FirstWindow.socket.getInputStream();
             ObjectInputStream  obj = new ObjectInputStream(inputstream);
             try {
@@ -168,7 +158,6 @@ public class FilesPatientWindow extends javax.swing.JFrame {
             if(file.exists()){ //checks if the file exists or not  
                 desktop.open(file); //opens the specified file  
             }
-            // show all data in new window
         } catch (IOException ex) {
             Logger.getLogger(FilesPatientWindow.class.getName()).log(Level.SEVERE, null, ex);
         }

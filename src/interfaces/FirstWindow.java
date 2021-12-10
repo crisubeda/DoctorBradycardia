@@ -5,11 +5,9 @@
  */
 package interfaces;
 
+import Utilities.ConnectionWithServer;
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,6 +114,7 @@ public class FirstWindow extends javax.swing.JFrame {
             this.t2.setVisible(true);
             this.t2.setForeground(Color.red);
             this.t2.setText("Error, not possible the connection with the server");
+            
         } else {
             try {
                 printWriter = new PrintWriter(socket.getOutputStream(), true);

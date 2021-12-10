@@ -221,9 +221,8 @@ public class ConnectionWithServer {
                         patient.setPhonenumber(datos[4]);
                         patient.setEmail(datos[5]);
                         patient.setDiagnosis(datos[6]);
-                        patient.setDocId(Exceptions.convertInt(datos[7]));
-                        patient.setPassword(datos[8]);
-                        patient.setMacBitalino(datos[9]);
+                        patient.setPassword(datos[7]);
+                        patient.setMacBitalino(datos[8]);
                         patient.setNewBitalino();
                         correct = true;
                     }

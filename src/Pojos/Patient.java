@@ -20,12 +20,11 @@ public class Patient {
     String phonenumber;
     String email;
     String diagnosis;
-    Integer docId;
     private String password;
     private String macBitalino;
     private BITalino bitalino;
 
-    public Patient(int id, String fullname, String username, String adress, String phonenumber, String email, String diagnosis, int docId, String pwd, String mac) {
+    public Patient(int id, String fullname, String username, String adress, String phonenumber, String email, String diagnosis, String pwd, String mac) {
         super();
         this.ID = id;
         this.fullName = fullname;
@@ -34,7 +33,6 @@ public class Patient {
         this.phonenumber = phonenumber;
         this.email = email;
         this.diagnosis = diagnosis;
-        this.docId = docId;
         this.password = pwd;
         this.macBitalino = mac;
         this.bitalino = new BITalino();
@@ -51,7 +49,7 @@ public class Patient {
 
     public Patient() {
         super();
-        this.fullName = "hey";
+        this.fullName = "";
         this.username = "";
         this.macBitalino = null;
     }
@@ -116,14 +114,6 @@ public class Patient {
         return password;
     }
     
-    public Integer getDocId() {
-        return docId;
-    }
-
-    public void setDocId(Integer docId) {
-        this.docId = docId;
-    }
-
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -154,7 +144,7 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "p#" + ID + ";" + fullName + ";" + username + ";" + address + ";" + phonenumber + ";" + email + ";" + diagnosis + ";" + docId + ";" + password + ";" + macBitalino + ";" + bitalino + ";#";
+        return "p#" + ID + ";" + fullName + ";" + username + ";" + address + ";" + phonenumber + ";" + email + ";" + diagnosis + ";" + password + ";" + macBitalino + ";" + bitalino + ";#";
     }
 
 }

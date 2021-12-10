@@ -5,8 +5,7 @@
  */
 package Pojos;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
